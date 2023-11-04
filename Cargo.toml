@@ -1,14 +1,2 @@
-[package]
-name = "axum-practice"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-axum = { version = "0.6.17" }
-tokio = { version = "1.33.0", features = ["full"] }
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["json"] }
-tracing-log = "0.1"
-serde = { version = "1.0.190", features = ["derive"] }
+[workspace]
+members = ["crates/rest"]

@@ -8,7 +8,7 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
-use uuid::Uuid;
+use usecase::*;
 
 #[tokio::main]
 async fn main() {
@@ -54,34 +54,21 @@ async fn ping(Json(ping): Json<Ping>) -> (StatusCode, Json<Pong>) {
 }
 
 async fn get_todos() -> impl IntoResponse {
-  let todos = TodosResponse {
-    todos: vec![
-      TodoResponse {
-        id: Uuid::new_v4(),
-        text: "test1".to_string(),
-        cmpleted: true,
-      },
-      TodoResponse {
-        id: Uuid::new_v4(),
-        text: "test2".to_string(),
-        cmpleted: false,
-      },
-    ],
-  };
+  let todos = get_todos::run().await.unwrap();
   Response::builder()
     .status(StatusCode::OK)
     .body(Body::from(serde_json::to_string(&todos).unwrap()))
     .unwrap()
 }
 
-#[derive(Serialize)]
-struct TodoResponse {
-  id: Uuid,
-  text: String,
-  cmpleted: bool,
-}
+// #[derive(Serialize)]
+// struct TodoResponse {
+//   id: Uuid,
+//   text: String,
+//   cmpleted: bool,
+// }
 
-#[derive(Serialize)]
-struct TodosResponse {
-  todos: Vec<TodoResponse>,
-}
+// #[derive(Serialize)]
+// struct TodosResponse {
+//   todos: Vec<TodoResponse>,
+// }
